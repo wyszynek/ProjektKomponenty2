@@ -4,9 +4,22 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import trainingPlanService from "../services/TrainingPlanService";
+import AddTrainingPlan from "./AddTrainingPlan";
+import AddWorkout from "./AddWorkout";
 
 const CalendarComponent = () => {
     const [events, setEvents] = useState([]);
+    const [trainingPlans, setTrainingPlans] = useState([]);
+    const [workouts, setWorkouts] = useState([]);
+
+    const handleAddPlan = (newPlan) => {
+        setTrainingPlans((prevPlans) => [...prevPlans, newPlan]);
+    };
+
+    const handleAddWorkout = (newWorkout) => {
+        setWorkouts((prevWorkouts) => [...prevWorkouts, newWorkout]);
+        fetchEvents();
+    };
 
     const fetchEvents = async () => {
         try {
@@ -56,6 +69,10 @@ const CalendarComponent = () => {
                 locale="pl"
                 timeZone="UTC"
             />
+
+            <AddTrainingPlan onAddPlan={handleAddPlan} />
+
+            <AddWorkout onAddWorkout={handleAddWorkout} />
         </div>
     );
 };
