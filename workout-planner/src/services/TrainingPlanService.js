@@ -43,8 +43,19 @@ const updateWorkoutDate = async (workoutId, newDate) => {
     }
 };
 
+const updateWorkout = async (workoutId, workoutData) => {
+    try {
+        const response = await axios.put(`${API_URL}/workouts/${workoutId}`, workoutData);
+        return response.data;
+    } catch (error) {
+        console.error("Error updating workout", error);
+        throw error;
+    }
+};
+
 
 export default {
     getTrainingPlans,
     updateWorkoutDate,
+    updateWorkout
 };

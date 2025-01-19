@@ -29,23 +29,25 @@ app.get("/plans", async (req, res) => {
 });
 
 app.put("/workouts/:id", async (req, res) => {
-    const { id } = req.params;
-    const { date } = req.body;
+  const { id } = req.params;
+  const updateData = req.body;
 
-    try {
-        const workout = await Workout.findByPk(id);
-        if (!workout) {
-            return res.status(404).send("Workout not found");
-        }
-
-        workout.date = date;
-        await workout.save();
-
-        res.status(200).send("Workout updated successfully");
-    } catch (err) {
-        console.error("Error updating workout:", err);
-        res.status(500).send("Failed to update workout");
-    }
+  try {
+      const workout = await Workout.findByPk(id);
+      if (!workout) {
+          return res.status(404).send("Workout not found");
+      }
+      for (const [key, value] of Object.entries(updateData)) {
+          if (value !== undefined && value !== null) {
+              workout[key] = value;
+          }
+      }
+      await workout.save();
+      res.status(200).json(workout);
+  } catch (err) {
+      console.error("Error updating workout:", err);
+      res.status(500).send("Failed to update workout");
+  }
 });
 
 app.post("/plans", async (req, res) => {

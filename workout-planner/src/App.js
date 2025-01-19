@@ -4,7 +4,7 @@ import CalendarComponent from "./components/CalendarComponent";
 function App() {
     return (
         <div className="App">
-            <h1>Planowanie Treningów</h1>
+            <h1>Training Planner</h1>
             <CalendarComponent />
         </div>
     );

@@ -1,0 +1,102 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.edit-workout-modal {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 450px;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+}
+
+.edit-workout-modal h2 {
+    text-align: center;
+    color: #2196f3;
+    font-size: 24px;
+    border-bottom: 2px solid #2196f3;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.edit-workout-modal form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.edit-workout-modal label {
+    font-weight: bold;
+    color: #333;
+}
+
+.edit-workout-modal input,
+.edit-workout-modal select,
+.edit-workout-modal textarea {
+    padding: 10px;
+    margin: 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.edit-workout-modal textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.edit-workout-modal button {
+    padding: 10px 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.save-button {
+    background-color: #4caf50;
+    color: white;
+}
+
+.save-button:hover {
+    background-color: #45a049;
+}
+
+.cancel-button {
+    background-color: #f44336;
+    color: white;
+}
+
+.cancel-button:hover {
+    background-color: #e53935;
+}
+
+.add-plan-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center; 
+    align-items: center; 
+}
