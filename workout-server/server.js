@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { TrainingPlan, Workout } from "./models.js";
+import { Op } from "sequelize";
 
 const app = express();
 const PORT = 7777;
@@ -26,6 +27,21 @@ app.get("/plans", async (req, res) => {
         console.error("Error fetching plans:", err);
         res.status(500).send("Could not fetch plans");
     }
+});
+
+app.get("/plans/active", async (req, res) => {
+  try {
+    const today = new Date();
+    const activePlans = await TrainingPlan.findAll({
+      where: {
+        endDate: { [Op.gte]: today },
+      },
+    });
+    res.json(activePlans);
+  } catch (err) {
+    console.error("Error fetching active plans:", err);
+    res.status(500).send("Could not fetch active plans");
+  }
 });
 
 app.put("/workouts/:id", async (req, res) => {

@@ -53,9 +53,19 @@ const updateWorkout = async (workoutId, workoutData) => {
     }
 };
 
+const addTrainingPlan = async (trainingPlan) => {
+    try {
+      const response = await axios.post(`${API_URL}/plans`, trainingPlan);
+      return response.data;
+    } catch (error) {
+      console.error("Error adding training plan:", error);
+      throw error;
+    }
+  };
 
 export default {
     getTrainingPlans,
     updateWorkoutDate,
-    updateWorkout
+    updateWorkout,
+    addTrainingPlan
 };

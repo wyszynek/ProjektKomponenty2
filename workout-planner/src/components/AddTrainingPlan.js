@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import TrainingPlanService from "../services/TrainingPlanService";
 import "../styles/EditWorkout.css"; 
 
 const AddTrainingPlan = ({ onAddPlan, onClose }) => {
@@ -16,24 +16,21 @@ const AddTrainingPlan = ({ onAddPlan, onClose }) => {
       return;
     }
 
+    if (endDate <= startDate) {
+      setMessage("End date must be after the start date.");
+      return;
+    }
+
     const newTrainingPlan = { name, startDate, endDate };
 
     try {
-      const response = await axios.post("http://localhost:7777/plans", {
-        name: newTrainingPlan.name,
-        startDate: newTrainingPlan.startDate,
-        endDate: newTrainingPlan.endDate,
-      });
-
-      if (response.status === 201) {
-        setMessage("Training plan added successfully!");
-        onAddPlan(newTrainingPlan);
-        setName("");
-        setStartDate("");
-        setEndDate("");
-      }
+      await TrainingPlanService.addTrainingPlan(newTrainingPlan);
+      onAddPlan(newTrainingPlan);
+      alert("Plan created successfully!");
+      setName("");
+      setStartDate("");
+      setEndDate("");
     } catch (error) {
-      console.error("Error adding training plan:", error);
       setMessage("Failed to add training plan. Please try again.");
     }
   };
