@@ -16,6 +16,9 @@ const CalendarComponent = () => {
   const [selectedWorkout, setSelectedWorkout] = useState(null);
   const [showAddPlanModal, setShowAddPlanModal] = useState(false);
   const [showAddWorkoutModal, setShowAddWorkoutModal] = useState(false);
+  const [hoveredEvent, setHoveredEvent] = useState(null);
+  const [showEventDialog, setShowEventDialog] = useState(false);
+  const [isMouseInsideDialog, setIsMouseInsideDialog] = useState(false);
 
   const handleAddPlan = (newPlan) => {
     setTrainingPlans((prevPlans) => [...prevPlans, newPlan]);
@@ -112,6 +115,31 @@ const CalendarComponent = () => {
     return color;
   };
 
+  let hoverTimeout;
+
+  const handleMouseEnter = (info) => {
+    const eventId = info.event.id;
+    const eventDetails = workouts.find(
+      (workout) => workout.id.toString() === eventId
+    );
+
+    const cursorPosition = {
+      x: info.jsEvent.pageX,
+      y: info.jsEvent.pageY,
+    };
+
+    hoverTimeout = setTimeout(() => {
+      setHoveredEvent({ ...eventDetails, position: cursorPosition });
+      setShowEventDialog(true);
+    }, 2000);
+  };
+
+  const handleMouseLeave = () => {
+    clearTimeout(hoverTimeout);
+    setShowEventDialog(false);
+    setHoveredEvent(null);
+  };
+
   return (
     <div className="calendar-container">
       <div className="button-container">
@@ -140,6 +168,8 @@ const CalendarComponent = () => {
         timeZone="UTC"
         height="auto"
         eventClick={handleEventClick}
+        eventMouseEnter={handleMouseEnter}
+        eventMouseLeave={handleMouseLeave}
         firstDay={1}
         eventContent={(arg) => (
           <div className="event-tooltip">
@@ -169,12 +199,37 @@ const CalendarComponent = () => {
         </div>
       )}
 
-      {showAddWorkoutModal && (
-        <div className="modal-overlay">
-          <AddWorkout
-            onAddWorkout={handleAddWorkout}
-            onClose={handleCancelAddWorkout}
-          />
+      {showEventDialog && hoveredEvent && (
+        <div
+          className="event-dialog"
+          style={{
+            position: "absolute",
+            top: `${hoveredEvent.position.y}px`,
+            left: `${hoveredEvent.position.x}px`,
+          }}
+          onMouseEnter={() => setIsMouseInsideDialog(true)}
+          onMouseLeave={() => {
+            setIsMouseInsideDialog(false);
+            setTimeout(() => {
+              if (!isMouseInsideDialog) {
+                setShowEventDialog(false);
+              }
+            }, 200);
+          }}
+        >
+          <h3>{hoveredEvent.trainingType}</h3>
+          <p>
+            <strong>Date:</strong> {hoveredEvent.date}
+          </p>
+          <p>
+            <strong>Duration:</strong> {hoveredEvent.duration} minutes
+          </p>
+          <p>
+            <strong>Intensity:</strong> {hoveredEvent.intensity}
+          </p>
+          <p>
+            <strong>Description:</strong> {hoveredEvent.description}
+          </p>
         </div>
       )}
     </div>
