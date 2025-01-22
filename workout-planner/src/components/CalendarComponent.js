@@ -199,6 +199,15 @@ const CalendarComponent = () => {
         </div>
       )}
 
+      {showAddWorkoutModal && (
+        <div className="modal-overlay">
+          <AddWorkout
+            onAddWorkout={handleAddWorkout}
+            onClose={handleCancelAddWorkout}
+          />
+        </div>
+      )}
+
       {showEventDialog && hoveredEvent && (
         <div
           className="event-dialog"
