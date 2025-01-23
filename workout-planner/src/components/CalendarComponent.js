@@ -19,6 +19,14 @@ const CalendarComponent = () => {
   const [hoveredEvent, setHoveredEvent] = useState(null);
   const [showEventDialog, setShowEventDialog] = useState(false);
   const [isMouseInsideDialog, setIsMouseInsideDialog] = useState(false);
+  const [selectedPlanId, setSelectedPlanId] = useState("all");
+
+  const filteredEvents =
+    selectedPlanId === "all"
+      ? events
+      : events.filter(
+          (event) => String(event.trainingPlanId) === String(selectedPlanId)
+        );
 
   const handleAddPlan = (newPlan) => {
     setTrainingPlans((prevPlans) => [...prevPlans, newPlan]);
@@ -127,7 +135,7 @@ const CalendarComponent = () => {
       x: info.jsEvent.pageX,
       y: info.jsEvent.pageY,
     };
-
+    console.log(events);
     hoverTimeout = setTimeout(() => {
       setHoveredEvent({ ...eventDetails, position: cursorPosition });
       setShowEventDialog(true);
@@ -158,10 +166,26 @@ const CalendarComponent = () => {
         </button>
       </div>
 
+      <div className="filter-container">
+        <label htmlFor="plan-select">Filter by Training Plan:</label>
+        <select
+          id="plan-select"
+          value={selectedPlanId}
+          onChange={(e) => setSelectedPlanId(e.target.value)}
+        >
+          <option value="all">All Plans</option>
+          {trainingPlans.map((plan) => (
+            <option key={plan.id} value={plan.id}>
+              {plan.name}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
-        events={events}
+        events={filteredEvents}
         editable={true}
         eventDrop={handleEventDrop}
         locale="en"
