@@ -33,6 +33,11 @@ const getTrainingPlans = async () => {
     }
 };
 
+const getTrainingPlanById = async (id) => {
+    const response = await axios.get(`${API_URL}/plans/${id}`);
+    return response.data;
+  };
+
 const updateWorkoutDate = async (workoutId, newDate) => {
     try {
         const formattedDate = new Date(newDate).toISOString().split("T")[0];
@@ -67,5 +72,6 @@ export default {
     getTrainingPlans,
     updateWorkoutDate,
     updateWorkout,
-    addTrainingPlan
+    addTrainingPlan,
+    getTrainingPlanById
 };

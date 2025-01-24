@@ -1,0 +1,63 @@
+.training-plan-details {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .training-plan-details h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #333;
+  }
+  
+  .dates p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  
+  h4 {
+    font-size: 20px;
+    margin-top: 20px;
+    color: #333;
+  }
+  
+  ul {
+    padding: 0;
+    list-style-type: none;
+  }
+  
+  .workout-item {
+    background-color: #fff;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .workout-item p {
+    margin: 5px 0;
+  }
+  
+  .workout-item p strong {
+    color: #333;
+  }
+  
+  .error-message {
+    color: red;
+    text-align: center;
+    font-size: 18px;
+    margin-top: 20px;
+  }
+  
+  .loading {
+    text-align: center;
+    font-size: 18px;
+    color: #3498db;
+  }
+  

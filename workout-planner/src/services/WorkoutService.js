@@ -22,7 +22,17 @@ const addWorkout = async (workoutData) => {
     }
 };
 
+const getWorkoutsByPlanId = async (planId) => {
+    try {
+      const response = await axios.get(`${API_URL}/workouts?trainingPlanId=${planId}`);
+      return response.data;
+    } catch (err) {
+      throw new Error("Error fetching workouts.");
+    }
+  };
+
 export default {
     getTrainingPlans,
-    addWorkout
+    addWorkout,
+    getWorkoutsByPlanId
 };

@@ -83,7 +83,43 @@ app.post("/plans", async (req, res) => {
       res.status(500).send("Could not save plan");
     }
   });
+
+app.get("/plans/:id", async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const plan = await TrainingPlan.findByPk(id, {
+            include: Workout,  // Włączenie powiązanych treningów
+        });
+
+        if (!plan) {
+            return res.status(404).send("Training plan not found");
+        }
+
+        res.json(plan);
+    } catch (err) {
+        console.error("Error fetching plan details:", err);
+        res.status(500).send("Could not fetch plan details");
+    }
+});
+
   
+app.get('/workouts', async (req, res) => {
+  const { trainingPlanId } = req.query;
+
+  try {
+    const workouts = await Workout.findAll({
+      where: {
+        trainingPlanId: trainingPlanId
+      }
+    });
+    res.json(workouts);
+  } catch (err) {
+    console.error('Error fetching workouts:', err);
+    res.status(500).send('Failed to load workouts');
+  }
+});
+
   app.post("/workouts", async (req, res) => {
     const {
       trainingPlanId,

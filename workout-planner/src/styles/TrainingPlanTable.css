@@ -1,0 +1,39 @@
+.training-plans-table {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .training-plans-table h2 {
+    margin-bottom: 20px;
+  }
+  
+  .training-plans-table table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .training-plans-table th,
+  .training-plans-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .training-plans-table th {
+    background-color: #5500ff;
+    font-weight: bold;
+  }
+  
+  .training-plans-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .training-plans-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .training-plans-table .error {
+    color: red;
+    font-weight: bold;
+  }
+  
