@@ -89,7 +89,7 @@ app.get("/plans/:id", async (req, res) => {
 
     try {
         const plan = await TrainingPlan.findByPk(id, {
-            include: Workout,  // Włączenie powiązanych treningów
+            include: Workout, 
         });
 
         if (!plan) {
@@ -103,6 +103,42 @@ app.get("/plans/:id", async (req, res) => {
     }
 });
 
+app.delete("/plans/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const plan = await TrainingPlan.findByPk(id);
+
+    if (!plan) {
+      return res.status(404).json({ message: 'Plan not found' });
+    }
+
+    await plan.destroy();
+    
+    res.status(200).json({ message: 'Plan deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error deleting training plan' });
+  }
+});
+
+app.put("/plans/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const plan = await TrainingPlan.findByPk(id);
+    
+    if (!plan) {
+      return res.status(404).json({ message: 'Plan not found' });
+    }
+
+    await plan.update(req.body);
+    res.json(plan);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error updating training plan' });
+  }
+});
   
 app.get('/workouts', async (req, res) => {
   const { trainingPlanId } = req.query;

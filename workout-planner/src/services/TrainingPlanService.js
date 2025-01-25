@@ -66,12 +66,34 @@ const addTrainingPlan = async (trainingPlan) => {
       console.error("Error adding training plan:", error);
       throw error;
     }
-  };
+};
+
+const deleteTrainingPlan = async (id) => {
+    try {
+        const response = await axios.delete(`${API_URL}/plans/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error deleting training plan:", error);
+        throw error;
+    }
+};
+
+const updateTrainingPlan = async (id, updatedPlan) => {
+    try {
+        const response = await axios.put(`${API_URL}/plans/${id}`, updatedPlan);
+        return response.data;
+    } catch (error) {
+        console.error("Error updating training plan:", error);
+        throw error;
+    }
+};
 
 export default {
     getTrainingPlans,
     updateWorkoutDate,
     updateWorkout,
     addTrainingPlan,
-    getTrainingPlanById
+    getTrainingPlanById,
+    deleteTrainingPlan,
+    updateTrainingPlan
 };

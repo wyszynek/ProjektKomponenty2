@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom'; // Zainicjalizuj useNavigate
+import { useNavigate } from 'react-router-dom';
 import TrainingPlanService from "../services/TrainingPlanService";
 import "../styles/TrainingPlanTable.css";
 
@@ -7,7 +7,7 @@ const TrainingPlanTable = () => {
   const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const navigate = useNavigate(); // Zainicjalizuj useNavigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPlans = async () => {
@@ -31,7 +31,7 @@ const TrainingPlanTable = () => {
   }, []);
 
   const handleRowClick = (planId) => {
-    navigate(`/training-plans/${planId}`); // Nawiguj do szczegółów planu z id jako parametr
+    navigate(`/training-plans/${planId}`);
   };
 
   if (loading) {
