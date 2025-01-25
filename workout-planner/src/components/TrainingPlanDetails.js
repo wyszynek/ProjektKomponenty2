@@ -4,6 +4,7 @@ import TrainingPlanService from "../services/TrainingPlanService";
 import WorkoutService from "../services/WorkoutService";
 import "../styles/TrainingPlanDetails.css";
 import EditTrainingPlan from "./EditTrainingPlan";
+import ConfirmationModal from "./ConfirmationModal";
 
 const TrainingPlanDetails = () => {
   const { id } = useParams();
@@ -13,6 +14,7 @@ const TrainingPlanDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showEditPlanModal, setShowEditPlanModal] = useState(false);
+  const [showModal, setShowModal] = useState(false); 
 
   useEffect(() => {
     const fetchPlanDetails = async () => {
@@ -40,17 +42,25 @@ const TrainingPlanDetails = () => {
     return date.toLocaleDateString("en-US", options);
   };
 
+  const handleDeletion = () => {
+    setShowModal(true);
+  };
+
   const handleDeletePlan = async () => {
-    if (window.confirm("Are you sure you want to delete this training plan?")) {
+    
       try {
         await TrainingPlanService.deleteTrainingPlan(id);
-        alert("Training plan deleted successfully!");
+        setShowModal(false); 
         navigate("/training-plans");
       } catch (err) {
         console.error("Error deleting training plan:", err);
         alert("Failed to delete training plan. Please try again.");
       }
-    }
+    
+  };
+
+  const handleCancelDelete = () => {
+    setShowModal(false); 
   };
 
   const handleEditPlan = (updatedPlan) => {
@@ -114,7 +124,7 @@ const TrainingPlanDetails = () => {
         </ul>
       )}
 
-      <button className="delete-button" onClick={handleDeletePlan}>
+      <button className="delete-button" onClick={handleDeletion}>
         Delete Plan
       </button>
       <button
@@ -124,14 +134,22 @@ const TrainingPlanDetails = () => {
         </button>
 
         {showEditPlanModal && (
-        <div className="modal-overlay">
-          <EditTrainingPlan
-            planId={plan.id}
-            onUpdatePlan={handleEditPlan}
-            onClose={handleCancelEditPlan}
+          <div className="modal-overlay">
+            <EditTrainingPlan
+              planId={plan.id}
+              onUpdatePlan={handleEditPlan}
+              onClose={handleCancelEditPlan}
+            />
+          </div>
+        )}
+
+        {showModal && (
+          <ConfirmationModal
+            message="Are you sure you want to delete this plan?"
+            onConfirm={handleDeletePlan}
+            onCancel={handleCancelDelete}
           />
-        </div>
-      )}
+        )}
     </div>
   );
 };
