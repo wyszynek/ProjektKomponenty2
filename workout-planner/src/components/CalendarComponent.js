@@ -35,8 +35,8 @@ const CalendarComponent = () => {
 
   const handleAddWorkout = (newWorkout) => {
     setWorkouts((prevWorkouts) => [...prevWorkouts, newWorkout]);
-    fetchEvents();
     setShowAddWorkoutModal(false);
+    fetchEvents();
   };
 
   const fetchEvents = async () => {
