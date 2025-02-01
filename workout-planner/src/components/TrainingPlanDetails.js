@@ -14,7 +14,7 @@ const TrainingPlanDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showEditPlanModal, setShowEditPlanModal] = useState(false);
-  const [showModal, setShowModal] = useState(false); 
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchPlanDetails = async () => {
@@ -28,7 +28,9 @@ const TrainingPlanDetails = () => {
         setLoading(false);
       } catch (err) {
         console.error("Error fetching training plan details:", err);
-        setError("Failed to load training plan details. Please try again later.");
+        setError(
+          "Failed to load training plan details. Please try again later."
+        );
         setLoading(false);
       }
     };
@@ -47,25 +49,23 @@ const TrainingPlanDetails = () => {
   };
 
   const handleDeletePlan = async () => {
-    
-      try {
-        await TrainingPlanService.deleteTrainingPlan(id);
-        setShowModal(false); 
-        navigate("/training-plans");
-      } catch (err) {
-        console.error("Error deleting training plan:", err);
-        alert("Failed to delete training plan. Please try again.");
-      }
-    
+    try {
+      await TrainingPlanService.deleteTrainingPlan(id);
+      setShowModal(false);
+      navigate("/training-plans");
+    } catch (err) {
+      console.error("Error deleting training plan:", err);
+      alert("Failed to delete training plan. Please try again.");
+    }
   };
 
   const handleCancelDelete = () => {
-    setShowModal(false); 
+    setShowModal(false);
   };
 
   const handleEditPlan = (updatedPlan) => {
-    setPlan(updatedPlan); 
-    setShowEditPlanModal(false); 
+    setPlan(updatedPlan);
+    setShowEditPlanModal(false);
   };
 
   const handleCancelEditPlan = () => {
@@ -128,28 +128,29 @@ const TrainingPlanDetails = () => {
         Delete Plan
       </button>
       <button
-          onClick={() => setShowEditPlanModal(true)}
-        >
-          Edit Plan
-        </button>
+        className="edit-button"
+        onClick={() => setShowEditPlanModal(true)}
+      >
+        Edit Plan
+      </button>
 
-        {showEditPlanModal && (
-          <div className="modal-overlay">
-            <EditTrainingPlan
-              planId={plan.id}
-              onUpdatePlan={handleEditPlan}
-              onClose={handleCancelEditPlan}
-            />
-          </div>
-        )}
-
-        {showModal && (
-          <ConfirmationModal
-            message="Are you sure you want to delete this plan?"
-            onConfirm={handleDeletePlan}
-            onCancel={handleCancelDelete}
+      {showEditPlanModal && (
+        <div className="modal-overlay">
+          <EditTrainingPlan
+            planId={plan.id}
+            onUpdatePlan={handleEditPlan}
+            onClose={handleCancelEditPlan}
           />
-        )}
+        </div>
+      )}
+
+      {showModal && (
+        <ConfirmationModal
+          message="Are you sure you want to delete this plan?"
+          onConfirm={handleDeletePlan}
+          onCancel={handleCancelDelete}
+        />
+      )}
     </div>
   );
 };

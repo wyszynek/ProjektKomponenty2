@@ -1,63 +1,137 @@
 .training-plan-details {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    max-width: 600px;
-    margin: 0 auto;
-    background-color: #f4f4f4;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.training-plan-details h3 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+}
+
+.training-plan-details h4 {
+  color: #444;
+  font-size: 20px;
+  margin: 25px 0 15px;
+}
+
+.dates {
+  background-color: #f5f5f5;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.dates p {
+  margin: 5px 0;
+  color: #666;
+}
+
+.dates strong {
+  color: #333;
+  margin-right: 10px;
+}
+
+.workout-item {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  list-style: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.workout-item p {
+  margin: 8px 0;
+  line-height: 1.4;
+}
+
+.workout-item strong {
+  color: #555;
+  margin-right: 8px;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+  color: #666;
+}
+
+.error-message {
+  color: #d32f2f;
+  text-align: center;
+  padding: 20px;
+  background-color: #ffebee;
+  border-radius: 8px;
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.delete-button {
+  background-color: #d32f2f;
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #b71c1c;
+}
+
+.edit-button {
+  background-color: #2196f3;
+  color: white;
+}
+
+.edit-button:hover {
+  background-color: #1172c2;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+@media (max-width: 768px) {
+  .training-plan-details {
+    padding: 15px;
   }
-  
-  .training-plan-details h3 {
-    font-size: 24px;
-    margin-bottom: 10px;
-    text-align: center;
-    color: #333;
-  }
-  
-  .dates p {
-    font-size: 16px;
-    color: #555;
-    margin-bottom: 5px;
-  }
-  
-  h4 {
-    font-size: 20px;
-    margin-top: 20px;
-    color: #333;
-  }
-  
-  ul {
-    padding: 0;
-    list-style-type: none;
-  }
-  
+
   .workout-item {
-    background-color: #fff;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 12px;
   }
-  
-  .workout-item p {
+
+  .training-plan-details h3 {
+    font-size: 20px;
+  }
+
+  .training-plan-details h4 {
+    font-size: 18px;
+  }
+
+  button {
+    width: 100%;
     margin: 5px 0;
   }
-  
-  .workout-item p strong {
-    color: #333;
-  }
-  
-  .error-message {
-    color: red;
-    text-align: center;
-    font-size: 18px;
-    margin-top: 20px;
-  }
-  
-  .loading {
-    text-align: center;
-    font-size: 18px;
-    color: #3498db;
-  }
-  
+}
