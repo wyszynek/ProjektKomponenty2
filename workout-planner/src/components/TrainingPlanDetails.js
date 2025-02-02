@@ -15,6 +15,8 @@ const TrainingPlanDetails = () => {
   const [error, setError] = useState("");
   const [showEditPlanModal, setShowEditPlanModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [selectedWorkoutId, setSelectedWorkoutId] = useState(null);
+  const [showDeleteWorkoutModal, setShowDeleteWorkoutModal] = useState(false);
 
   useEffect(() => {
     const fetchPlanDetails = async () => {
@@ -59,8 +61,34 @@ const TrainingPlanDetails = () => {
     }
   };
 
+  const handleDeleteWorkout = async () => {
+    try {
+      await WorkoutService.deleteWorkout(selectedWorkoutId);
+      // Update workouts list after deletion
+      const updatedWorkouts = workouts.filter(
+        (workout) => workout.id !== selectedWorkoutId
+      );
+      setWorkouts(updatedWorkouts);
+      setShowDeleteWorkoutModal(false);
+      setSelectedWorkoutId(null);
+    } catch (err) {
+      console.error("Error deleting workout:", err);
+      alert("Failed to delete workout. Please try again.");
+    }
+  };
+
+  const handleWorkoutDeletion = (workoutId) => {
+    setSelectedWorkoutId(workoutId);
+    setShowDeleteWorkoutModal(true);
+  };
+
   const handleCancelDelete = () => {
     setShowModal(false);
+  };
+
+  const handleCancelWorkoutDelete = () => {
+    setShowDeleteWorkoutModal(false);
+    setSelectedWorkoutId(null);
   };
 
   const handleEditPlan = (updatedPlan) => {
@@ -119,6 +147,12 @@ const TrainingPlanDetails = () => {
                 <strong>Description:</strong>{" "}
                 {workout.description || "No description available"}
               </p>
+              <button
+                className="delete-workout-button"
+                onClick={() => handleWorkoutDeletion(workout.id)}
+              >
+                Delete Workout
+              </button>
             </li>
           ))}
         </ul>
@@ -149,6 +183,14 @@ const TrainingPlanDetails = () => {
           message="Are you sure you want to delete this plan?"
           onConfirm={handleDeletePlan}
           onCancel={handleCancelDelete}
+        />
+      )}
+
+      {showDeleteWorkoutModal && (
+        <ConfirmationModal
+          message="Are you sure you want to delete this workout?"
+          onConfirm={handleDeleteWorkout}
+          onCancel={handleCancelWorkoutDelete}
         />
       )}
     </div>

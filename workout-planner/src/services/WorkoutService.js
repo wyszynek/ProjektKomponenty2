@@ -33,8 +33,20 @@ const getWorkoutsByPlanId = async (planId) => {
   }
 };
 
+const deleteWorkout = async (workoutId) => {
+  try {
+    const response = await axios.delete(`${API_URL}/workouts/${workoutId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting workout", error);
+    throw error;
+  }
+};
+
+
 export default {
   getTrainingPlans,
   addWorkout,
   getWorkoutsByPlanId,
+  deleteWorkout,
 };

@@ -148,6 +148,11 @@ const CalendarComponent = () => {
     setHoveredEvent(null);
   };
 
+  const handleDeleteWorkout = (workoutId) => {
+    setWorkouts(prevWorkouts => prevWorkouts.filter(w => w.id !== workoutId));
+    fetchEvents();
+  };
+
   return (
     <div className="calendar-container">
       <div className="button-container">
@@ -211,6 +216,7 @@ const CalendarComponent = () => {
           plans={trainingPlans}
           onClose={() => setSelectedWorkout(null)}
           onUpdate={handleUpdateWorkout}
+          onDelete={handleDeleteWorkout}
         />
       )}
 

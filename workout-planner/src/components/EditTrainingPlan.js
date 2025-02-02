@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TrainingPlanService from "../services/TrainingPlanService";
 import TrainingPlanValidator from "../validators/TrainingPlanValidator";
+import PropTypes from "prop-types";
 import Alert from "../components/Alert";
 import "../styles/EditWorkout.css";
 
@@ -121,6 +122,18 @@ const EditTrainingPlan = ({ planId, onUpdatePlan, onClose }) => {
       </div>
     </div>
   );
+};
+
+EditTrainingPlan.propTypes = {
+  planId: PropTypes.number.isRequired,
+  onUpdatePlan: PropTypes.func.isRequired, 
+  onClose: PropTypes.func.isRequired, 
+  plan: PropTypes.shape({ 
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    startDate: PropTypes.string.isRequired,
+    endDate: PropTypes.string.isRequired,
+  }),
 };
 
 export default EditTrainingPlan;

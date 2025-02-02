@@ -7,6 +7,8 @@ const TrainingPlanTable = () => {
   const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [sortField, setSortField] = useState("startDate");
+  const [sortDirection, setSortDirection] = useState("desc");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,38 +32,80 @@ const TrainingPlanTable = () => {
     fetchPlans();
   }, []);
 
+  const handleSort = (field) => {
+    if (field === sortField) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortDirection("asc");
+    }
+  };
+
+  const sortedPlans = [...plans].sort((a, b) => {
+    const aValue = a[sortField];
+    const bValue = b[sortField];
+    
+    if (sortField === "name") {
+      return sortDirection === "asc" 
+        ? aValue.localeCompare(bValue)
+        : bValue.localeCompare(aValue);
+    } else {
+      const dateA = new Date(aValue);
+      const dateB = new Date(bValue);
+      return sortDirection === "asc" ? dateA - dateB : dateB - dateA;
+    }
+  });
+
   const handleRowClick = (planId) => {
     navigate(`/training-plans/${planId}`);
   };
 
   if (loading) {
-    return <p>Loading training plans...</p>;
+    return (
+      <div className="training-plans-table">
+        <p>Loading training plans...</p>
+      </div>
+    );
   }
 
   if (error) {
-    return <p className="error">{error}</p>;
+    return (
+      <div className="training-plans-table">
+        <p className="error">{error}</p>
+      </div>
+    );
   }
 
   return (
     <div className="training-plans-table">
-      <h2>All Training Plans</h2>
+      <h2>Training Plans</h2>
       {plans.length === 0 ? (
         <p>No training plans available.</p>
       ) : (
         <table>
           <thead>
             <tr>
-              <th>Plan Name</th>
+              <th onClick={() => handleSort("name")} style={{ cursor: "pointer" }}>
+                Plan Name {sortField === "name" && (sortDirection === "asc" ? "↑" : "↓")}
+              </th>
+              <th onClick={() => handleSort("startDate")} style={{ cursor: "pointer" }}>
+                Start Date {sortField === "startDate" && (sortDirection === "asc" ? "↑" : "↓")}
+              </th>
+              <th onClick={() => handleSort("endDate")} style={{ cursor: "pointer" }}>
+                End Date {sortField === "endDate" && (sortDirection === "asc" ? "↑" : "↓")}
+              </th>
             </tr>
           </thead>
           <tbody>
-            {plans.map((plan, index) => (
+            {sortedPlans.map((plan) => (
               <tr
                 key={plan.id}
                 onClick={() => handleRowClick(plan.id)}
-                style={{ cursor: "pointer" }} 
+                style={{ cursor: "pointer" }}
               >
                 <td>{plan.name}</td>
+                <td>{plan.startDate}</td>
+                <td>{plan.endDate}</td>
               </tr>
             ))}
           </tbody>

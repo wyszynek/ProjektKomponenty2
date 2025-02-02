@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import PropTypes from "prop-types";
 import WorkoutValidator from "../validators/WorkoutValidator";
 import Alert from "../components/Alert";
 import "../styles/EditWorkout.css";
 
-const EditWorkout = ({ workout, onClose, onUpdate, plans }) => {
+const EditWorkout = ({ workout, onClose, onUpdate, onDelete, plans }) => {
   const [formData, setFormData] = useState({
     trainingPlanId: workout.trainingPlanId?.toString() || "",
     date: workout.date ? workout.date.split("T")[0] : "",
@@ -75,6 +76,20 @@ const EditWorkout = ({ workout, onClose, onUpdate, plans }) => {
       onClose();
     } catch (err) {
       setErrorMessage("Failed to update workout.");
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!window.confirm("Are you sure you want to delete this workout?")) {
+      return;
+    }
+  
+    try {
+      await axios.delete(`http://localhost:7777/workouts/${workout.id}`);
+      onDelete(workout.id);
+      onClose();
+    } catch (err) {
+      setErrorMessage("Failed to delete workout.");
     }
   };
 
@@ -153,13 +168,42 @@ const EditWorkout = ({ workout, onClose, onUpdate, plans }) => {
           <button type="submit" className="save-button">
             Save Changes
           </button>
-          <button type="button" className="cancel-button" onClick={onClose}>
+          
+          <button
+            type="button"
+            className="delete-button"
+            onClick={handleDelete}
+          >
+            Delete Workout
+          </button>
+          <button type="button" className="cancel-edit-button" onClick={onClose}>
             Cancel
           </button>
         </form>
       </div>
     </div>
   );
+};
+
+EditWorkout.propTypes = {
+  workout: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    trainingPlanId: PropTypes.number,
+    date: PropTypes.string,
+    trainingType: PropTypes.string,
+    duration: PropTypes.number,
+    intensity: PropTypes.number,
+    description: PropTypes.string,
+  }).isRequired,
+  onClose: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  plans: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 };
 
 export default EditWorkout;

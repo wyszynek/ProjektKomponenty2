@@ -195,6 +195,25 @@ app.get('/workouts', async (req, res) => {
     }
 });
 
+app.delete("/workouts/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const workout = await Workout.findByPk(id);
+
+    if (!workout) {
+      return res.status(404).json({ message: "Workout not found" });
+    }
+
+    await workout.destroy();
+    res.status(200).json({ message: "Workout deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting workout:", err);
+    res.status(500).json({ message: "Failed to delete workout" });
+  }
+});
+
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
