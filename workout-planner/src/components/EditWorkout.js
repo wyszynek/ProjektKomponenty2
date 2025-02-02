@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import WorkoutValidator from "../validators/WorkoutValidator";
 import Alert from "../components/Alert";
+import ConfirmationModal from "../components/ConfirmationModal";
 import workoutService from "../services/WorkoutService";
 import "../styles/EditWorkout.css";
 
@@ -17,6 +18,7 @@ const EditWorkout = ({ workout, onClose, onUpdate, onDelete, plans }) => {
 
   const [changedFields, setChangedFields] = useState({});
   const [errorMessage, setErrorMessage] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     setFormData({
@@ -76,11 +78,11 @@ const EditWorkout = ({ workout, onClose, onUpdate, onDelete, plans }) => {
     }
   };
 
-  const handleDelete = async () => {
-    if (!window.confirm("Are you sure you want to delete this workout?")) {
-      return;
-    }
+  const handleDeletion = () => {
+    setShowModal(true);
+  };
 
+  const handleDeleteWorkout = async () => {
     try {
       await workoutService.deleteWorkout(workout.id);
       onDelete(workout.id);
@@ -88,6 +90,10 @@ const EditWorkout = ({ workout, onClose, onUpdate, onDelete, plans }) => {
     } catch (err) {
       setErrorMessage("Failed to delete workout.");
     }
+  };
+
+  const handleCancelDelete = () => {
+    setShowModal(false);
   };
 
   return (
@@ -169,7 +175,7 @@ const EditWorkout = ({ workout, onClose, onUpdate, onDelete, plans }) => {
           <button
             type="button"
             className="delete-button"
-            onClick={handleDelete}
+            onClick={handleDeletion}
           >
             Delete Workout
           </button>
@@ -178,6 +184,15 @@ const EditWorkout = ({ workout, onClose, onUpdate, onDelete, plans }) => {
           </button>
         </form>
       </div>
+
+      {showModal && (
+        <ConfirmationModal
+          message="Are you sure you want to delete this plan?"
+          onConfirm={handleDeleteWorkout}
+          onCancel={handleCancelDelete}
+        />
+      )}
+
     </div>
   );
 };
