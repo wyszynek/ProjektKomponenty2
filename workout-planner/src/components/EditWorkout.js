@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import PropTypes from "prop-types";
 import WorkoutValidator from "../validators/WorkoutValidator";
 import Alert from "../components/Alert";
+import workoutService from "../services/WorkoutService";
 import "../styles/EditWorkout.css";
 
 const EditWorkout = ({ workout, onClose, onUpdate, onDelete, plans }) => {
@@ -68,11 +68,8 @@ const EditWorkout = ({ workout, onClose, onUpdate, onDelete, plans }) => {
     });
 
     try {
-      const response = await axios.put(
-        `http://localhost:7777/workouts/${workout.id}`,
-        updatedData
-      );
-      onUpdate(response.data);
+      const response = await workoutService.updateWorkout(workout.id, updatedData);
+      onUpdate(response);
       onClose();
     } catch (err) {
       setErrorMessage("Failed to update workout.");
@@ -83,9 +80,9 @@ const EditWorkout = ({ workout, onClose, onUpdate, onDelete, plans }) => {
     if (!window.confirm("Are you sure you want to delete this workout?")) {
       return;
     }
-  
+
     try {
-      await axios.delete(`http://localhost:7777/workouts/${workout.id}`);
+      await workoutService.deleteWorkout(workout.id);
       onDelete(workout.id);
       onClose();
     } catch (err) {

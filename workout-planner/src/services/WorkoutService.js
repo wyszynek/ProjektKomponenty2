@@ -24,9 +24,7 @@ const addWorkout = async (workoutData) => {
 
 const getWorkoutsByPlanId = async (planId) => {
   try {
-    const response = await axios.get(
-      `${API_URL}/workouts?trainingPlanId=${planId}`
-    );
+    const response = await axios.get(`${API_URL}/workouts?trainingPlanId=${planId}`);
     return response.data;
   } catch (err) {
     throw new Error("Error fetching workouts.");
@@ -43,10 +41,22 @@ const deleteWorkout = async (workoutId) => {
   }
 };
 
+const updateWorkout = async (workoutId, updatedData) => {
+  try {
+    const response = await axios.put(`${API_URL}/workouts/${workoutId}`, updatedData);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating workout", error);
+    throw error;
+  }
+};
 
-export default {
+const workoutService = {
   getTrainingPlans,
   addWorkout,
   getWorkoutsByPlanId,
   deleteWorkout,
+  updateWorkout,
 };
+
+export default workoutService;
